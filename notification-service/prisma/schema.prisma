@@ -1,0 +1,157 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AppointmentStatus {
+  BOOKED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum UrgencyLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient?
+  doctor  Doctor?
+}
+
+model Patient {
+  id           String        @id @default(uuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age          Int?
+  gender       String?
+  bloodGroup   String?
+  allergies    String?
+  appointments Appointment[]
+}
+
+model Doctor {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  specialization  String
+  experience      Int?
+  consultationFee Float?
+
+  // Administrative Schedule
+  workingHoursStart String @default("09:00")
+  workingHoursEnd   String @default("17:00")
+  slotDurationMins  Int    @default(30)
+
+  // ============================
+  // Google Calendar Integration
+  // ============================
+
+  googleCalendarConnected Boolean   @default(false)
+
+  googleCalendarId String? @default("primary")
+
+  googleAccessToken String? @db.Text
+
+  googleRefreshToken String? @db.Text
+
+  googleTokenExpiry DateTime?
+
+  appointments Appointment[]
+  leaves       DoctorLeave[]
+}
+
+model DoctorLeave {
+  id        String   @id @default(uuid())
+  doctorId  String
+  doctor    Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  leaveDate DateTime
+  createdAt DateTime @default(now())
+
+  @@unique([doctorId, leaveDate])
+}
+
+model Appointment {
+  id              String            @id @default(uuid())
+
+  patientId       String
+  doctorId        String
+
+  appointmentDate DateTime
+  slotStartTime   String
+
+  status          AppointmentStatus @default(BOOKED)
+
+  // Patient Symptoms
+  symptoms        String?
+
+  // AI Generated
+  urgencyLevel    UrgencyLevel?
+  preSummary      String?
+
+  // Doctor Notes
+  clinicalNotes   String?
+
+  // AI Generated
+  postSummary     String?
+
+  prescriptionLog Json?
+
+  // Google Calendar Event ID
+  googleEventId   String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  doctor  Doctor  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId])
+
+  @@index([patientId])
+
+  @@unique([doctorId, appointmentDate, slotStartTime])
+}
+model Notification {
+  id        String   @id @default(uuid())
+
+  userId    String
+
+  title     String
+
+  message   String
+
+  type      String?
+
+  isRead    Boolean  @default(false)
+
+  metadata  Json?
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
