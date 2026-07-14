@@ -9,13 +9,27 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 FROM base AS deps
+
 COPY src/package*.json ./
-RUN npm ci --omit=dev
+
+# Install all dependencies (including Prisma CLI)
+RUN npm ci
+
+# Copy Prisma schema
+COPY src/prisma ./prisma
+
+# Generate Prisma Client (Prisma 6)
+RUN npx prisma generate
+
+# Remove dev dependencies
+RUN npm prune --omit=dev
 
 FROM base AS runtime
+
 RUN groupadd --system app && useradd --system --gid app app
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/prisma ./prisma
 COPY src/ ./
 
 RUN chown -R app:app /app
