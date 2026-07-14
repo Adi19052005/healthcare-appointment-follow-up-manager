@@ -9,6 +9,12 @@ const authRoutes = require("./routes/authRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+
+app.use((req, res, next) => {
+  console.log(">>>", req.method, req.originalUrl);
+  next();
+});
+
 const appointmentRoutes = require("./routes/appointmentRoutes"); // <-- ADD
 const notificationRoutes = require("./routes/notificationRoutes");
 const googleCalendarRoutes = require("./routes/googleCalendarRoutes");
