@@ -4,6 +4,11 @@ const authMiddleware = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
 
+        console.log("========== Incoming Request ==========");
+console.log("Headers:", req.headers);
+console.log("Authorization:", req.headers.authorization);
+console.log("======================================");
+
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
                 success: false,
