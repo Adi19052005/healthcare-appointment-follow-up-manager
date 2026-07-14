@@ -41,7 +41,28 @@ https://github.com/Adi19052005/healthcare-appointment-follow-up-manager
 
 
 ---
+## 🔑 Admin Access
 
+For the convenience of reviewers and evaluators, sample administrator credentials are provided in the repository.
+
+The admin login details can be found in:
+
+```text
+admin access.json
+```
+
+Use the credentials from this file to log in to the **Admin Portal** and explore administrative features such as:
+
+- Dashboard & Analytics
+- Doctor Management
+- Patient Management
+- Appointment Management
+- Leave Management
+- Working Hours Configuration
+
+> **Note:** These credentials are intended **only for demonstration and evaluation purposes**. In a production environment, sensitive credentials should never be stored in the repository and should instead be managed securely using environment variables or a secrets management service.
+>
+> 
 # 📖 Table of Contents
 
 - Overview
