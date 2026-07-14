@@ -5,6 +5,8 @@ const { connectProducer } = require("./utils/kafkaProducer");
 const prisma = require("./config/prisma");
 const { withDbRetry } = require("./utils/db");
 
+const app = express()
+
 const authRoutes = require("./routes/authRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
@@ -21,7 +23,7 @@ const googleCalendarRoutes = require("./routes/googleCalendarRoutes");
 
 const errorHandler = require("./middleware/errorHandler");
 
-const app = express();
+;
 
 // Middleware
 app.use(cors());
