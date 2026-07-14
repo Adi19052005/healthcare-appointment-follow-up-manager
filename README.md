@@ -22,9 +22,9 @@ A production-inspired healthcare appointment platform that enables **patients, d
 
 🌐 **Live Demo**
 
-**Application:** http://18.224.59.109
+**Application:** http://16.58.164.97/
 
-**Public DNS:** http://ec2-18-224-59-109.us-east-2.compute.amazonaws.com
+**Public DNS:** http://http://ec2-16-58-164-97.us-east-2.compute.amazonaws.com/
 
 **GitHub Repository**
 
