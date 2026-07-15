@@ -583,30 +583,6 @@ GET /api/admin/appointments
 
 ---
 
-# 📸 Screenshots
-
-> Replace these placeholders with screenshots.
-
-```
-Landing Page
-
-Patient Dashboard
-
-Doctor Dashboard
-
-Admin Dashboard
-
-Appointment Booking
-
-Clinical Notes
-
-Analytics
-
-System Architecture
-```
-
----
-
 # 🚀 Future Improvements
 
 - Kubernetes Deployment
